@@ -1,7 +1,8 @@
 let slayingHero;
-let totalGold = 50;
-let nameOptions = ['Craig', 'Eduardo', 'Matt', 'Mick', 'Jeremy', 'Steve', 'Joe', 'Billy', 'Savannah', 'Hannah', 'Amber']
+let totalGold = 500;
+let nameOptions = ['Craig', 'Eduardo', 'Matt', 'Mick', 'Jeremy', 'Steve', 'Joe', 'Billy', 'Savannah', 'Hannah', 'Amber', 'Cameron', 'Luke']
 let raceOptions = ['dwarf', 'elf', 'human', 'gnome', 'halfling', 'dragonborn', 'argonian', 'giant', 'khajiit', 'sentinel']
+let emojiOptions = ['🦝', '🐀', '😂', '😊', '🐴', '🐸', '🦊', '🫥', '😛', '😀', '😔', '🫠', '😡', '🧑‍🦽‍➡️', '🤡', '🦄']
 
 
 const heroes = [
@@ -10,6 +11,7 @@ const heroes = [
     type: 'dwarf',
     damage: 5,
     health: 100,
+    emoji: '😤'
     //gold: 0
   },
   {
@@ -17,6 +19,7 @@ const heroes = [
     type: 'elf',
     damage: 10,
     health: 50,
+    emoji: '😑'
     // gold: 0
   }
 ]
@@ -36,12 +39,15 @@ const dragonBoss = document.getElementById('boss');
 dragonBoss.addEventListener('click', () => attackBoss());
 const buyPotion = document.getElementById("buy-potion")
 buyPotion.addEventListener("click", () => heroHealthpack())
+const buyHero = document.getElementById('buy-hero')
+buyHero.addEventListener("click", () => generateHero())
 
 
 
 function attackBoss() {
   heroes.forEach((hero) => {
     boss.health -= hero.damage
+    drawBossHealth()
     console.log(boss.health)
     if (boss.health <= 0) {
       rewardHeroes(hero)
@@ -78,14 +84,22 @@ function attackHeroes() {
 setInterval(attackHeroes, 5000)
 
 function generateHero() {
-  let randHealth = Math.floor(Math.random() * 100) + 50
-  let randDmg = Math.floor(Math.random() * 20) + 5
-  let randNameSelector = Math.floor(Math.random() * heroes.length)
-  let randRaceSelector = Math.floor(Math.random() * heroes.length)
-  let randName = nameOptions[randNameSelector]
-  let randRace = raceOptions[randRaceSelector]
+  if (totalGold >= 50) {
+    let randHealth = Math.floor(Math.random() * 100) + 50
+    let randDmg = Math.floor(Math.random() * 20) + 5
+    let randNameSelector = Math.floor(Math.random() * nameOptions.length)
+    let randRaceSelector = Math.floor(Math.random() * raceOptions.length)
+    let randEmojiSelector = Math.floor(Math.random() * emojiOptions.length)
+    let randName = nameOptions[randNameSelector]
+    let randRace = raceOptions[randRaceSelector]
+    let randEmoji = emojiOptions[randEmojiSelector]
 
-  heroes.push({ name: randName, type: randRace, damage: randDmg, health: randHealth })
+    heroes.push({ name: randName, type: randRace, damage: randDmg, health: randHealth, emoji: randEmoji })
+
+    totalGold -= 50;
+    drawGold()
+    drawHeroes();
+  }
 }
 
 function heroHealthpack() {
@@ -110,7 +124,7 @@ function drawHeroes() {
   heroes.forEach(hero => {
     heroList.innerHTML += `<div class="col-md-3">
         <div class="hero">
-          <p>${hero.name} 😊</p>
+          <p>${hero.name} ${hero.emoji}</p>
           <p>HP:<span>${hero.health}</span></p>
         </div>
       </div>`
@@ -123,5 +137,14 @@ function drawGold() {
 }
 
 function heroDies(hero) {
-  console.log(hero)
+  heroIndex = heroes.findIndex((hero2) => hero2.name == hero.name)
+  heroes.splice(heroIndex, 1)
+}
+
+function drawBossHealth() {
+  const hpBar = document.getElementById('hp-bar')
+
+  let hpPercent = (boss.health / boss.maxHealth) * 100
+
+  hpBar.style.width = `${hpPercent}%`
 }

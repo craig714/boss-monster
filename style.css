@@ -6,4 +6,40 @@ body {
 
 main {
   flex: 1;
+  background-image: url(https://hdqwalls.com/wallpapers/windows-xp-bliss-4k-lu.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.hero {
+  background-color: #424242;
+  width: 75%;
+  padding: 1em;
+  border-radius: 10px;
+  margin: 1em;
+  color: #e6e6e6;
+  box-shadow: 0px 3px 5px black;
+}
+
+.shop {
+  background-color: #424242;
+  padding: 1em;
+  border-radius: 10px;
+  margin: 1em;
+  color: #e6e6e6;
+  box-shadow: 0px 3px 5px black;
+  border: 5px solid yellow;
+}
+
+.bg-hp {
+  width: 100%;
+  background-color: #e6e6e6;
+  height: 20px;
+  border: 1px solid #e6e6e6;
+}
+
+.fg-hp {
+  width: 100%;
+  background-color: red;
+  height: 100%
 }
