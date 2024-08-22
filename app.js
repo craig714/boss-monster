@@ -1,5 +1,5 @@
 let slayingHero;
-let totalGold = 500;
+let totalGold = 50;
 let nameOptions = ['Craig', 'Eduardo', 'Matt', 'Mick', 'Jeremy', 'Steve', 'Joe', 'Billy', 'Savannah', 'Hannah', 'Amber', 'Cameron', 'Luke']
 let raceOptions = ['dwarf', 'elf', 'human', 'gnome', 'halfling', 'dragonborn', 'argonian', 'giant', 'khajiit', 'sentinel']
 let emojiOptions = ['🦝', '🐀', '😂', '😊', '🐴', '🐸', '🦊', '🫥', '😛', '😀', '😔', '🫠', '😡', '🧑‍🦽‍➡️', '🤡', '🦄']
@@ -41,19 +41,20 @@ const buyPotion = document.getElementById("buy-potion")
 buyPotion.addEventListener("click", () => heroHealthpack())
 const buyHero = document.getElementById('buy-hero')
 buyHero.addEventListener("click", () => generateHero())
+const buyJake = document.getElementById('buy-jake')
+buyJake.addEventListener("click", () => generateJake())
 
 
 
 function attackBoss() {
   heroes.forEach((hero) => {
     boss.health -= hero.damage
-    drawBossHealth()
-    console.log(boss.health)
     if (boss.health <= 0) {
       rewardHeroes(hero)
       drawGold()
       levelUpBoss()
     }
+    drawBossHealth()
   });
 }
 
@@ -102,6 +103,16 @@ function generateHero() {
   }
 }
 
+function generateJake() {
+  console.log("Entered generateJAke")
+  if (totalGold >= 1000) {
+    heroes.push({ name: 'Jake', type: "human", damage: 10000, health: 1000, emoji: '💣' })
+    totalGold -= 1000
+    drawGold()
+    drawHeroes()
+  }
+}
+
 function heroHealthpack() {
   if (totalGold >= 20) {
     for (let i = 0; i < heroes.length; i++) {
@@ -135,6 +146,8 @@ function drawGold() {
   let goldElem = document.getElementById('gold');
   goldElem.textContent = totalGold;
 }
+
+drawGold()
 
 function heroDies(hero) {
   heroIndex = heroes.findIndex((hero2) => hero2.name == hero.name)
